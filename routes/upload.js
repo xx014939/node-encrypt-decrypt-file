@@ -67,48 +67,28 @@ router.post('/uploadFile', upload.single('inputFile'), function(req, res, next) 
 			status : "success",
 			message : "File uploaded and encrypted successfully"
 		});
-			// Make Axios request to Pinata -- encrypted 
-	console.log('Axios Starting')
-	let dataTwo = new FormData()
-	dataTwo.append('file', fs.createReadStream(target_path))
-	axios.post('https://api.pinata.cloud/pinning/pinFileToIPFS', dataTwo, {
-		maxBodyLength: 'Infinity', //this is needed to prevent axios from erroring out with large files
-		headers: {
-			'Content-Type': `multipart/form-data; boundary=${dataTwo._boundary}`,
-			pinata_api_key: 'ceb2c5f294aab645cdf3',
-			pinata_secret_api_key: 'f1297b168c2f3cf03d8b5fd6b1b9b4a54c664a9f74bdc39861432297b8f86469'
-		}
-	})
-	.then(function (response) {
-		//handle response here
-		console.log(response)
-	})
-	.catch(function (error) {
-		//handle error here
-		console.log(error)
+	
+		// Make Axios request to Pinata -- encrypted 
+		console.log('Axios Starting')
+		let dataTwo = new FormData()
+		dataTwo.append('file', fs.createReadStream(target_path))
+		axios.post('https://api.pinata.cloud/pinning/pinFileToIPFS', dataTwo, {
+			maxBodyLength: 'Infinity', //this is needed to prevent axios from erroring out with large files
+			headers: {
+				'Content-Type': `multipart/form-data; boundary=${dataTwo._boundary}`,
+				pinata_api_key: 'ceb2c5f294aab645cdf3',
+				pinata_secret_api_key: 'f1297b168c2f3cf03d8b5fd6b1b9b4a54c664a9f74bdc39861432297b8f86469'
+			}
+		})
+		.then(function (response) {
+			//handle response here
+			console.log(response)
+		})
+		.catch(function (error) {
+			//handle error here
+			console.log(error)
+		});
 	});
-	});
-
-	// // Make Axios request to Pinata -- encrypted 
-	// console.log('Axios Starting')
-	// let dataTwo = new FormData()
-	// dataTwo.append('file', fs.createReadStream(target_path))
-	// axios.post('https://api.pinata.cloud/pinning/pinFileToIPFS', dataTwo, {
-	// 	maxBodyLength: 'Infinity', //this is needed to prevent axios from erroring out with large files
-	// 	headers: {
-	// 		'Content-Type': `multipart/form-data; boundary=${dataTwo._boundary}`,
-	// 		pinata_api_key: 'ceb2c5f294aab645cdf3',
-	// 		pinata_secret_api_key: 'f1297b168c2f3cf03d8b5fd6b1b9b4a54c664a9f74bdc39861432297b8f86469'
-	// 	}
-	// })
-	// .then(function (response) {
-	// 	//handle response here
-	// 	console.log(response)
-	// })
-	// .catch(function (error) {
-	// 	//handle error here
-	// 	console.log(error)
-	// });
 });
 
 router.post('/downloadFile', function(req, res, next) {
