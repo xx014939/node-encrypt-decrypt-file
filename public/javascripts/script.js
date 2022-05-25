@@ -1,7 +1,5 @@
-
 $(document).ready(function() {
-	
-	//ajax form submission
+
 	$("#fileUpload").submit(function(e) {
 		e.preventDefault();
 		var frm = $(this), error = false, msg = "";
@@ -61,6 +59,7 @@ $(document).ready(function() {
 					console.log(result);
 				}
 			});
+
 		}
 	});
 	
@@ -89,7 +88,7 @@ $(document).ready(function() {
 			}
 		});
 	}
-	getFiles();
+	//getFiles();
 	
 	$(document).on("click", "button[data-file]", function() {
 		var b = $(this), v = b.attr('data-file');
