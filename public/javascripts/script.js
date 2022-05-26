@@ -43,6 +43,8 @@ $(document).ready(function() {
 								$("#successmsg").fadeOut("slow");
 							}
 						}, 5000);
+
+						alert(`Your file is hosted on the following URL --> yourmetaworld.mypinata.cloud/ipfs/${result.result.IpfsHash}`)
 					}
 					frm.find("input,select").each(function() {
 						$(this).removeAttr("disabled");
@@ -50,6 +52,7 @@ $(document).ready(function() {
 					$("#submitbtn").removeAttr("disabled").text("Submit");
 					frm[0].reset();
 					getFiles();
+					console.log(result)
 				},
 				error: function(result) {
 					frm.find("input,select").each(function() {

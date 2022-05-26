@@ -62,32 +62,42 @@ router.post('/uploadFile', upload.single('inputFile'), function(req, res, next) 
 	});
 
 	dest.on("finish", function() {
-		fs.unlinkSync(tmp_path);
-		res.json({
-			status : "success",
-			message : "File uploaded and encrypted successfully"
-		});
-	
-		// Make Axios request to Pinata -- encrypted 
-		console.log('Axios Starting')
-		let dataTwo = new FormData()
-		dataTwo.append('file', fs.createReadStream(target_path))
-		axios.post('https://api.pinata.cloud/pinning/pinFileToIPFS', dataTwo, {
-			maxBodyLength: 'Infinity', //this is needed to prevent axios from erroring out with large files
-			headers: {
-				'Content-Type': `multipart/form-data; boundary=${dataTwo._boundary}`,
-				pinata_api_key: 'ceb2c5f294aab645cdf3',
-				pinata_secret_api_key: 'f1297b168c2f3cf03d8b5fd6b1b9b4a54c664a9f74bdc39861432297b8f86469'
+		fs.unlinkSync(tmp_path);	
+			async function cid(path) {			
+			// Make Axios request to Pinata -- encrypted 
+			console.log('Axios Starting')
+			let dataTwo = new FormData()
+			dataTwo.append('file', fs.createReadStream(path))
+			axios.post('https://api.pinata.cloud/pinning/pinFileToIPFS', dataTwo, {
+				maxBodyLength: 'Infinity', //this is needed to prevent axios from erroring out with large files
+				headers: {
+					'Content-Type': `multipart/form-data; boundary=${dataTwo._boundary}`,
+					pinata_api_key: 'ceb2c5f294aab645cdf3',
+					pinata_secret_api_key: 'f1297b168c2f3cf03d8b5fd6b1b9b4a54c664a9f74bdc39861432297b8f86469'
+				}
+			})
+			.then(async function (response) {
+				//handle response here
+				res.json({
+					status : "success",
+					message : "File uploaded and encrypted successfully",
+					result: response.data,
+					resulttwo: 'i am here'
+				});
+			})
+			// .catch(function (error) {
+			// 	//handle error here
+			// 	console.log(error)
+			// 	return error;
+			// });
 			}
-		})
-		.then(function (response) {
-			//handle response here
-			console.log(response)
-		})
-		.catch(function (error) {
-			//handle error here
-			console.log(error)
-		});
+
+			// let CID_VALUE = (async () => {
+			// 	await cid(target_path)
+			// 	.then (data => {return data})
+			//  })()
+			cid(target_path)
+
 	});
 });
 
